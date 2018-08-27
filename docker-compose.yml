@@ -1,0 +1,54 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:5.5.59
+    container_name: mysql_arbd
+    command: --max_allowed_packet=100M
+    environment:
+      - MYSQL_ROOT_PASSWORD=bercail
+      - TZ=Europe/Paris
+      - MYSQL_DATABASE=arbd_api
+      - MYSQL_USER=arbd
+      - MYSQL_PASSWORD=etna
+    ports:
+      - 3307:3306
+    networks:
+      - mysql-symfony
+
+  webserver:
+    depends_on:
+      - php-fpm
+    image: nginx:alpine
+    container_name: http-nginx_arbd
+    environment:
+        - TZ=Europe/Paris
+    working_dir: /application
+    volumes:
+        - ./src/speedBouffe:/application
+        - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+     - 8000:80
+    networks:
+      - nginx-symfony
+
+  php-fpm:
+    depends_on:
+      - mysql
+    build: ./php-fpm
+    container_name: symfony-api_arbd
+    environment:
+        - TZ=Europe/Paris
+    working_dir: /application
+    volumes:
+      - ./src/speedBouffe:/application
+      - ./php-fpm/php-ini-overrides.ini:/etc/php/7.2/fpm/conf.d/99-overrides.ini
+    networks:
+      - mysql-symfony
+      - nginx-symfony
+
+networks:
+  mysql-symfony:
+    driver: bridge
+    
+  nginx-symfony:
+    driver: bridge
