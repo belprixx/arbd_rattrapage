@@ -23,8 +23,8 @@ RUN echo 'Europe/Paris' > /etc/timezone && dpkg-reconfigure -f noninteractive tz
 
 CMD service php7.2-fpm start && \
     composer update && \
-#	bin/console doctrine:schema:update --force && \
-	bin/console cache:clear --env=dev && \
+	bin/console doctrine:schema:update --force && \
+#	bin/console cache:clear --env=dev && \
 	bin/console cache:clear --env=dev && \
 #	/etc/init.d/cron start && \
 	tail -f /etl.log

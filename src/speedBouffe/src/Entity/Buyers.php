@@ -44,7 +44,7 @@ class Buyers
     private $mail;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="buyers", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\CommandOrder", mappedBy="buyers", orphanRemoval=true)
      */
     private $orders;
 
@@ -119,14 +119,14 @@ class Buyers
     }
 
     /**
-     * @return Collection|Order[]
+     * @return Collection|CommandOrder[]
      */
     public function getOrders(): Collection
     {
         return $this->orders;
     }
 
-    public function addOrder(Order $order): self
+    public function addOrder(CommandOrder $order): self
     {
         if (!$this->orders->contains($order)) {
             $this->orders[] = $order;
@@ -136,7 +136,7 @@ class Buyers
         return $this;
     }
 
-    public function removeOrder(Order $order): self
+    public function removeOrder(CommandOrder $order): self
     {
         if ($this->orders->contains($order)) {
             $this->orders->removeElement($order);

@@ -47,10 +47,10 @@ class OrderDetails
     private $rate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Order", inversedBy="orderDetails")
+     * @ORM\ManyToOne(targetEntity="App\Entity\CommandOrder", inversedBy="orderDetails")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $id_order;
+    private $id_commandOrder;
 
     public function getId(): ?int
     {
@@ -129,14 +129,14 @@ class OrderDetails
         return $this;
     }
 
-    public function getIdOrder(): ?Order
+    public function getIdOrder(): ?CommandOrder
     {
-        return $this->id_order;
+        return $this->id_commandOrder;
     }
 
-    public function setIdOrder(?Order $id_order): self
+    public function setIdOrder(?CommandOrder $id_order): self
     {
-        $this->id_order = $id_order;
+        $this->id_commandOrder = $id_order;
 
         return $this;
     }

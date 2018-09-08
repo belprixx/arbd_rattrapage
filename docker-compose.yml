@@ -7,7 +7,7 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=bercail
       - TZ=Europe/Paris
-      - MYSQL_DATABASE=arbd_api
+      - MYSQL_DATABASE=ardb
       - MYSQL_USER=arbd
       - MYSQL_PASSWORD=etna
     ports:
