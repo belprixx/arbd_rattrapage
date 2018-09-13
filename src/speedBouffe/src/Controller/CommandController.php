@@ -42,8 +42,8 @@ class CommandController extends AbstractController
         $oCommand =  json_decode($jCommand);
         $buyers = new Buyers();
         $order = new CommandOrder();
-        dump($oCommand->Acheteur->Email);
-        dump($test = $Rbuyers ->findOneByMail($oCommand->Acheteur->Email));
+//        dump($oCommand->Acheteur->Email);
+//        dump($test = $Rbuyers ->findOneByMail($oCommand->Acheteur->Email));
         if (!$test = $Rbuyers ->findOneByMail($oCommand->Acheteur->Email)) {
             $buyers->setCivility($oCommand->Acheteur->Civilite);
             $buyers->setLastName($oCommand->Acheteur->Nom);
