@@ -23,8 +23,32 @@ RUN echo 'Europe/Paris' > /etc/timezone && dpkg-reconfigure -f noninteractive tz
 
 CMD service php7.2-fpm start && \
     composer update && \
-	bin/console doctrine:schema:update --force && \
+	bin/console doctrine:schema:create && \
 #	bin/console cache:clear --env=dev && \
 	bin/console cache:clear --env=dev && \
 #	/etc/init.d/cron start && \
 	tail -f /etl.log
+
+FROM ubuntu:latest
+MAINTAINER docker@ekito.fr
+
+RUN apt-get update && apt-get -y install cron
+
+# Add crontab file in the cron directory
+ADD crontab /etc/cron.d/hello-cron
+ADD backup.sh /
+
+RUN chmod 755 /backup.sh
+RUN mkdir -p /backup/mysql
+
+# Give execution rights on the cron job
+RUN chmod 0644 /etc/cron.d/hello-cron
+
+# Apply cron job
+RUN crontab /etc/cron.d/hello-cron
+
+# Create the log file to be able to run tail
+RUN touch /var/log/cron.log
+
+# Run the command on container startup
+CMD cron && tail -f /var/log/cron.log
