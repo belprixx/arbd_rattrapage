@@ -37,18 +37,25 @@ class CommandController extends AbstractController
     public function addCommand(Request $request)
     {
         $entityManager = $this->getDoctrine()->getManager();
+        $Rbuyers = $this->getDoctrine()->getRepository(Buyers::class);
         $jCommand = $request->request->get('Command');
         $oCommand =  json_decode($jCommand);
         $buyers = new Buyers();
         $order = new CommandOrder();
-
-        $buyers->setCivility($oCommand->Acheteur->Civilite);
-        $buyers->setLastName($oCommand->Acheteur->Nom);
-        $buyers->setFirstName($oCommand->Acheteur->Prenom);
-        $buyers->setAge($oCommand->Acheteur->Age);
-        $buyers->setMail($oCommand->Acheteur->Email);
-        $entityManager->persist($buyers);
-        $entityManager->flush();
+        dump($oCommand->Acheteur->Email);
+        dump($test = $Rbuyers ->findOneByMail($oCommand->Acheteur->Email));
+        if (!$test = $Rbuyers ->findOneByMail($oCommand->Acheteur->Email)) {
+            $buyers->setCivility($oCommand->Acheteur->Civilite);
+            $buyers->setLastName($oCommand->Acheteur->Nom);
+            $buyers->setFirstName($oCommand->Acheteur->Prenom);
+            $buyers->setAge($oCommand->Acheteur->Age);
+            $buyers->setMail($oCommand->Acheteur->Email);
+            $entityManager->persist($buyers);
+            $entityManager->flush();
+        }
+        else {
+            $buyers = $test;
+    }
 
         $cash = $oCommand->Infos_commande->Paiement_espece == "Oui" ? true:false;
         $order->setDate(new \DateTime($oCommand->Infos_commande->Jour));
