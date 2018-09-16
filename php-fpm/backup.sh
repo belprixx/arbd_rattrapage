@@ -26,8 +26,7 @@ SKIPDATABASES="Database|information_schema|performance_schema|mysql"
 
 RETENTION=14
 
-# ---- NE RIEN MODIFIER SOUS CETTE LIGNE ------------------------------------------
-#
+
 # Create a new directory into backup directory location for this date
 
 mkdir -p $BACKUP_DIR/$DATE
