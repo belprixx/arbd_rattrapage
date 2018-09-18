@@ -53,7 +53,7 @@ class CommandOrderRepository extends ServiceEntityRepository
             ->orderBy('o.id', 'DESC')
             ->setMaxResults($max)
             ->getQuery()
-            ->getResult()
+            ->getArrayResult()
             ;
     }
 

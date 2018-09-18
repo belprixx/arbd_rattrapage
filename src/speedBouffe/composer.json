@@ -8,6 +8,7 @@
         "api-platform/api-pack": "^1.1",
         "sensio/framework-extra-bundle": "^5.2",
         "symfony/console": "*",
+        "symfony/filesystem": "*",
         "symfony/flex": "^1.1",
         "symfony/framework-bundle": "*",
         "symfony/http-foundation": "*",

@@ -7,9 +7,11 @@ use App\Entity\OrderDetails;
 use App\Entity\CommandOrder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+
 
 
 class CommandController extends AbstractController
@@ -21,12 +23,10 @@ class CommandController extends AbstractController
     public function index(Request $request)
     {
         $maxResults = !empty($request->query->get("maxResults")) ? $request->query->get("maxResults") : "20";
-//        dump($maxrResults);
         $commands = $this->getDoctrine()
             ->getRepository(CommandOrder::class)
             ->findByMaxResults($maxResults);
 
-//        dump($commands);
         return JsonResponse::create($commands, 200);
     }
 
@@ -42,9 +42,7 @@ class CommandController extends AbstractController
         $oCommand =  json_decode($jCommand);
         $buyers = new Buyers();
         $order = new CommandOrder();
-//        dump($oCommand->Acheteur->Email);
-//        dump($test = $Rbuyers ->findOneByMail($oCommand->Acheteur->Email));
-        if (!$test = $Rbuyers ->findOneByMail($oCommand->Acheteur->Email)) {
+        if (!$client = $Rbuyers ->findOneByMail($oCommand->Acheteur->Email)) {
             $buyers->setCivility($oCommand->Acheteur->Civilite);
             $buyers->setLastName($oCommand->Acheteur->Nom);
             $buyers->setFirstName($oCommand->Acheteur->Prenom);
@@ -54,8 +52,8 @@ class CommandController extends AbstractController
             $entityManager->flush();
         }
         else {
-            $buyers = $test;
-    }
+            $buyers = $client;
+        }
 
         $cash = $oCommand->Infos_commande->Paiement_espece == "Oui" ? true:false;
         $order->setDate(new \DateTime($oCommand->Infos_commande->Jour));
